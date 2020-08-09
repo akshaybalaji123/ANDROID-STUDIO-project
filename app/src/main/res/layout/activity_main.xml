@@ -1,93 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<LinearLayout
-    tools:context="net.simplifiedlearning.firebaseauth.MainActivity"
-    android:orientation="vertical"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="net.simplifiedlearning.firebaseauth.MainActivity">
 
 
     <RelativeLayout
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1">
 
-        <ImageView
-            android:layout_height="100dp"
-            android:layout_width="85dp"
-            android:background="@drawable/pocketpapa"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"/>
+    <ImageView
+        android:layout_width="85dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/pocketpapa"/>
 
-    </RelativeLayout>
+</RelativeLayout>
 
 
     <RelativeLayout
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:background="@color/colorPrimary">
 
 
-        <LinearLayout android:orientation="vertical"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:layout_centerVertical="true"
-            android:paddingRight="15dp"
-            android:paddingLeft="15dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerVertical="true"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
 
-            <EditText
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:textColorHint="@color/colorAccent"
-            android:paddingBottom="15dp"
-            android:inputType="textEmailAddress"
-            android:hint="Email"
-            android:id="@+id/editTextEmail"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="#000000"
+        android:paddingBottom="15dp"
+        android:inputType="textEmailAddress"
+        android:hint="Email"
+        android:id="@+id/editTextSIEmail"/>
 
-            <EditText
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:textColorHint="@color/colorAccent"
-                android:paddingBottom="15dp"
-                android:inputType="textPassword"
-                android:hint="Password"
-                android:fontFamily="sans-serif"
-                android:id="@+id/editTextPassword"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="#000000"
+        android:paddingBottom="15dp"
+        android:inputType="textPassword"
+        android:hint="Password"
+        android:id="@+id/editTextSIPassword"
+        android:fontFamily="sans-serif"/>
 
-            <Button
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:id="@+id/buttonLogin"
-                android:textColor="@color/colorAccent"
-                android:textAllCaps="false"
-                android:text="Login"
-                android:layout_margin="7dp"
-                android:layout_gravity="center"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/childbuttonsignin"
+        android:textColor="#000000"
+        android:textAllCaps="false"
+        android:text="Login"
+        android:layout_margin="7dp"
+        android:layout_gravity="center"/>
 
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:id="@+id/textViewSignup"
-                android:textColor="@color/colorAccent"
-                android:text="Don't have account? Sign Up"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                android:textAlignment="center"
-                android:padding="15dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewSignup"
+        android:textColor="#000000"
+        android:text="Don't have account? Sign Up"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textAlignment="center"
+        android:padding="15dp"/>
 
-        </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewChild"
+        android:text="Press here to log into your child account"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textAlignment="center"
+        android:padding="15dp"/>
 
-        <ProgressBar
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/progressbar"
-            android:visibility="gone"/>
+</LinearLayout>
 
-    </RelativeLayout>
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:id="@+id/progressbar"
+        android:visibility="gone"/>
+
+</RelativeLayout>
 
 </LinearLayout>
