@@ -1,8 +1,10 @@
 package net.simplifiedlearning.firebaseauth;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -14,23 +16,29 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class AddChoreActivity extends AppCompatActivity implements View.OnClickListener {
 
 
     EditText editTextChoreId,editTextChoreName, editTextPointValue;
     Button AddChoreButtonSubmit;
-
+    private FirebaseAuth mAuth;
     private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_chore);
-
+        mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
      editTextChoreId = findViewById(R.id.editTextChoreId);
@@ -88,11 +96,36 @@ public class AddChoreActivity extends AppCompatActivity implements View.OnClickL
         }
         return false;
     }
-    @Override
-    public void onClick(View view) {
+    private void addData () {
         String name = editTextChoreName.getText().toString().trim();
         String id = editTextChoreId.getText().toString().trim();
         String point_value = editTextPointValue.getText().toString().trim();
+        String email=mAuth.getCurrentUser().getEmail();
+        Map<String,Object> map=new HashMap<String, Object>();
+        map.put("choreName",name);
+        map.put("choreID",id);
+        map.put("chorePoints",point_value);
+        db.collection("chores").document(email).set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(AddChoreActivity.this, "Chore Add Successfull", Toast.LENGTH_SHORT).show();
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(AddChoreActivity.this, "Chore Add failed", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+    }
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.AddChoreButtonSubmit:
+                addData();
+                break;
+        }
 
         }
 
