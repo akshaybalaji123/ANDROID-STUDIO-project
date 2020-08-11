@@ -119,6 +119,7 @@ public class ChildSignUpActivity extends AppCompatActivity implements View.OnCli
 
 
 
+
                                     Toast.makeText(getApplicationContext(), "User Register Succesfull", Toast.LENGTH_SHORT).show();
                                 } else {
 

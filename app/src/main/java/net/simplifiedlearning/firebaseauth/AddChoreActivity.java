@@ -49,6 +49,7 @@ public class AddChoreActivity extends AppCompatActivity implements View.OnClickL
 
 
         findViewById(R.id.AddChoreButtonSubmit).setOnClickListener(this);
+        findViewById(R.id.checkpendingchores).setOnClickListener(this);
     }
 
     public class InputFilterMinMax implements InputFilter, net.simplifiedlearning.firebaseauth.InputFilterMinMax {
@@ -103,9 +104,10 @@ public class AddChoreActivity extends AppCompatActivity implements View.OnClickL
         String email=mAuth.getCurrentUser().getEmail();
         Map<String,Object> map=new HashMap<String, Object>();
         map.put("choreName",name);
-        map.put("choreID",id);
+        map.put("email",email);
+        map.put("status","active");
         map.put("chorePoints",point_value);
-        db.collection("chores").document(email).set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+        db.collection("chores").document(id).set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Toast.makeText(AddChoreActivity.this, "Chore Add Successfull", Toast.LENGTH_SHORT).show();
@@ -124,6 +126,10 @@ public class AddChoreActivity extends AppCompatActivity implements View.OnClickL
         switch (view.getId()){
             case R.id.AddChoreButtonSubmit:
                 addData();
+                break;
+
+            case R.id.checkpendingchores:
+                startActivity(new Intent(AddChoreActivity.this,ParentChoreListActivity.class));
                 break;
         }
 

@@ -105,7 +105,7 @@ public class ChildLoginActivity extends AppCompatActivity implements View.OnClic
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) // if password and email id matches
                         {
-                            Intent intent = new Intent(ChildLoginActivity.this, ProfileActivity.class);
+                            Intent intent = new Intent(ChildLoginActivity.this, ChoreListActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
                         } else {
