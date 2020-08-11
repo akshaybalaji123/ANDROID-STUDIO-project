@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,14 +25,14 @@ public class ParentChoreAdapter extends RecyclerView.Adapter<ParentChoreAdapter.
 
     public ParentChoreAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.chore_details, parent, false);
+                .inflate(R.layout.parent_chore_details, parent, false);
 
         return new MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ParentChoreAdapter.MyViewHolder holder, final int position) {
-        Chore chore = choreList.get(position);
+        final Chore chore = choreList.get(position);
         holder.choreName.setText(chore.getChoreName());
         holder.chorePoints.setText(chore.getChorePoints());
         holder.status.setText(chore.getStatus());
@@ -39,8 +40,16 @@ public class ParentChoreAdapter extends RecyclerView.Adapter<ParentChoreAdapter.
         holder.redeem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                db.collection("chores").document(chore.getId()).update("status","reedeemed"); //update chore status
+                Toast.makeText(view.getContext(), "Sent chore for Verification!! Chore name: "+chore.getChoreName(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        holder.active.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                db.collection("chores").document(chore.getId()).update("status","active"); //update chore status
+                Toast.makeText(view.getContext(), "Sent chore for Verification!! Chore name: "+chore.getChoreName(), Toast.LENGTH_SHORT).show();
 
-                Log.d("actiontest", position+ " works; ");
             }
         });
     }
@@ -54,13 +63,14 @@ public class ParentChoreAdapter extends RecyclerView.Adapter<ParentChoreAdapter.
     }
     public class MyViewHolder extends RecyclerView.ViewHolder {
             public TextView choreName, chorePoints, status;
-            public Button redeem;
+            public Button redeem,active;
         public MyViewHolder(View view) {
             super(view);
-            choreName = (TextView) view.findViewById(R.id.choreNameText);
-            chorePoints = (TextView) view.findViewById(R.id.chorePointsText);
-            status = (TextView) view.findViewById(R.id.choreStatusText);
-            redeem =  (Button) view.findViewById(R.id.redeem);
+            choreName = (TextView) view.findViewById(R.id.chorePNameText);
+            chorePoints = (TextView) view.findViewById(R.id.chorePPointsText);
+            status = (TextView) view.findViewById(R.id.chorePStatusText);
+            redeem =  (Button) view.findViewById(R.id.Predeem);
+            active =  (Button) view.findViewById(R.id.Pactive);
 
         }
     }

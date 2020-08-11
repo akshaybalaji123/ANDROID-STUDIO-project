@@ -54,7 +54,8 @@ public class ChoreListActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Chore chore = document.toObject(Chore.class);
                                 chore.setId(document.getId().toString());
-                                movieList.add(chore);
+                                if(chore.getStatus().equals("active"))
+                                    movieList.add(chore);
                                 Log.d("data",document.getData().toString());
                                 Log.d("data",chore.email);
                             } mAdapter.notifyDataSetChanged();

@@ -54,10 +54,10 @@ public class ParentChoreListActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Chore chore = document.toObject(Chore.class);
                                 chore.setId(document.getId().toString());
-                                if(chore.getStatus()=="inprogress")  //check if child has clicked redeem button
+                                if(chore.getStatus().equals("inprogress")) //check if child has clicked redeem button
                                     movieList.add(chore);
                                 Log.d("data",document.getData().toString());
-                                Log.d("data",chore.email);
+                                Log.d("data",chore.choreName);
                             } mAdapter.notifyDataSetChanged();
                         } else {
                             Chore chore=new Chore("Fail","Fail","Fail","Fail","0");
