@@ -51,9 +51,8 @@ public class ChoreListActivity extends AppCompatActivity {
 
     private void prepareChoreData() {
         final String MyPREFERENCES = "MyPrefs" ;
-        String parentEmail = sharedpreferences.getString("parentEmail", null);
-
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        String parentEmail = sharedpreferences.getString("parentEmail", null);
 
         db.collection("chores")
                 .whereEqualTo("email", parentEmail) //parentEmail is the id from database

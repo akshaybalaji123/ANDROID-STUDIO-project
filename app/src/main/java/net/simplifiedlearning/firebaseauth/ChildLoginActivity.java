@@ -85,6 +85,7 @@ public class ChildLoginActivity extends AppCompatActivity implements View.OnClic
 
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
+        final String finalUsername = username;
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -94,7 +95,7 @@ public class ChildLoginActivity extends AppCompatActivity implements View.OnClic
                     {
                         String email= document.getData().get("email").toString(); //get email from document
                         String parentEmail= document.getData().get("parentEmail").toString();
-                        login(email, finalPassword,parentEmail);
+                        login(email, finalPassword, parentEmail, finalUsername);
                     } else {
 
                         //add code (user not found/registered)
@@ -105,7 +106,7 @@ public class ChildLoginActivity extends AppCompatActivity implements View.OnClic
         });
 
     }
-    public void login( String email, String finalPassword,final String parentEmail)
+    public void login( String email, String finalPassword,final String parentEmail,final String username)
     {
         mAuth.signInWithEmailAndPassword(email, finalPassword) //signin with email
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -116,6 +117,7 @@ public class ChildLoginActivity extends AppCompatActivity implements View.OnClic
                             SharedPreferences.Editor editor = sharedpreferences.edit();
 
                             editor.putString("parentEmail", parentEmail);
+                            editor.putString("username", username);
 
                             editor.commit();
 

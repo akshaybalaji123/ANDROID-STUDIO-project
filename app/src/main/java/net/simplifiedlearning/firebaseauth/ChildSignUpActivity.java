@@ -94,6 +94,7 @@ public class ChildSignUpActivity extends AppCompatActivity implements View.OnCli
         Map<String, Object> user = new HashMap<>();
         user.put("email", newEmail);
         user.put("parentEmail", parentEmail);
+        user.put("totalPoints", 0);
 
         db.collection("profiles").document(username) //username is set as firestore document name, profiles is the collection name
                 .set(user)  //Store the email in above document.

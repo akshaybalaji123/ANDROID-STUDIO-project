@@ -1,6 +1,8 @@
 package net.simplifiedlearning.firebaseauth;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +24,9 @@ public class ParentChoreAdapter extends RecyclerView.Adapter<ParentChoreAdapter.
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    SharedPreferences sharedpreferences;
+
+    final String MyPREFERENCES = "MyPrefs" ;
 
     public ParentChoreAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
@@ -41,6 +46,8 @@ public class ParentChoreAdapter extends RecyclerView.Adapter<ParentChoreAdapter.
             @Override
             public void onClick(View view) {
                 db.collection("chores").document(chore.getId()).update("status","reedeemed"); //update chore status
+                sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+                String username=sharedpreferences.getString("username",null);
                 Toast.makeText(view.getContext(), "Sent chore for Verification!! Chore name: "+chore.getChoreName(), Toast.LENGTH_SHORT).show();
             }
         });
