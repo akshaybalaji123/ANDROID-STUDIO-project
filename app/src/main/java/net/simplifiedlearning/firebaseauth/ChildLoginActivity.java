@@ -56,6 +56,8 @@ public class ChildLoginActivity extends AppCompatActivity implements View.OnClic
 
 
 
+
+
         findViewById(R.id.ChildbuttonLogin).setOnClickListener(this);
         findViewById(R.id.textViewChildSignup).setOnClickListener(this);
         findViewById(R.id.textViewParent).setOnClickListener(this);
@@ -103,7 +105,7 @@ public class ChildLoginActivity extends AppCompatActivity implements View.OnClic
         });
 
     }
-    public void login(String s, String email, String finalPassword)
+    public void login( String email, String finalPassword,final String parentEmail)
     {
         mAuth.signInWithEmailAndPassword(email, finalPassword) //signin with email
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {

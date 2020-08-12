@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -27,6 +29,9 @@ public class ChoreListActivity extends AppCompatActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    SharedPreferences sharedpreferences;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,8 +50,13 @@ public class ChoreListActivity extends AppCompatActivity {
     }
 
     private void prepareChoreData() {
+        final String MyPREFERENCES = "MyPrefs" ;
+        String parentEmail = sharedpreferences.getString("parentEmail", null);
+
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
         db.collection("chores")
-                .whereEqualTo("email", "parentEmail") //parentEmail is the id from database
+                .whereEqualTo("email", parentEmail) //parentEmail is the id from database
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
