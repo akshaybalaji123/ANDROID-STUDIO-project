@@ -24,8 +24,6 @@ public class ParentChoreAdapter extends RecyclerView.Adapter<ParentChoreAdapter.
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    SharedPreferences sharedpreferences;
-
     final String MyPREFERENCES = "MyPrefs" ;
 
     public ParentChoreAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -46,8 +44,9 @@ public class ParentChoreAdapter extends RecyclerView.Adapter<ParentChoreAdapter.
             @Override
             public void onClick(View view) {
                 db.collection("chores").document(chore.getId()).update("status","reedeemed"); //update chore status
-                sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+                SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
                 String username=sharedpreferences.getString("username",null);
+                db.collection("profiles").document(username).update("totalPoints", FieldValue.increment(50));
                 Toast.makeText(view.getContext(), "Sent chore for Verification!! Chore name: "+chore.getChoreName(), Toast.LENGTH_SHORT).show();
             }
         });
