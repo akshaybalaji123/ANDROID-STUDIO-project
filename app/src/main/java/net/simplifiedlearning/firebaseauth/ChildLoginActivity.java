@@ -3,7 +3,9 @@ package net.simplifiedlearning.firebaseauth;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -30,12 +32,13 @@ public class ChildLoginActivity extends AppCompatActivity implements View.OnClic
     EditText editTextChildLUsername, editTextChildLPassword;
     ProgressBar progressBar;
 
-
+   final String MyPREFERENCES = "MyPrefs" ;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseAuth mAuth;
 
+    SharedPreferences sharedpreferences;
 
 
 
@@ -78,6 +81,8 @@ public class ChildLoginActivity extends AppCompatActivity implements View.OnClic
         DocumentReference docRef = db.collection("profiles").document(username);
         final String finalPassword = password;
 
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -86,7 +91,8 @@ public class ChildLoginActivity extends AppCompatActivity implements View.OnClic
                     if (document.exists()) // if username is present
                     {
                         String email= document.getData().get("email").toString(); //get email from document
-                        login(email, finalPassword);
+                        String parentEmail= document.getData().get("parentEmail").toString();
+                        login(email, finalPassword,parentEmail);
                     } else {
 
                         //add code (user not found/registered)
@@ -97,7 +103,7 @@ public class ChildLoginActivity extends AppCompatActivity implements View.OnClic
         });
 
     }
-    public void login(String email,String finalPassword)
+    public void login(String s, String email, String finalPassword)
     {
         mAuth.signInWithEmailAndPassword(email, finalPassword) //signin with email
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -105,6 +111,12 @@ public class ChildLoginActivity extends AppCompatActivity implements View.OnClic
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) // if password and email id matches
                         {
+                            SharedPreferences.Editor editor = sharedpreferences.edit();
+
+                            editor.putString("parentEmail", parentEmail);
+
+                            editor.commit();
+
                             Intent intent = new Intent(ChildLoginActivity.this, ChoreListActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
