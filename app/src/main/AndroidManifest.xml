@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ChoreListActivity"/>
-        <activity android:name=".ParentChoreListActivity"/>
+        <activity android:name=".ParentChoreListActivity"/> 
         <activity android:name=".AddChoreActivity" />
         <activity android:name=".ChildSignUpActivity" />
         <activity android:name=".ChildLoginActivity" />

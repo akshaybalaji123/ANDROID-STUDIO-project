@@ -25,6 +25,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 public class AddChoreActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -102,17 +103,20 @@ public class AddChoreActivity extends AppCompatActivity implements View.OnClickL
         String id = editTextChoreId.getText().toString().trim();
         String point_value = editTextPointValue.getText().toString().trim();
         String email=mAuth.getCurrentUser().getEmail();
+        String uniqueID = UUID.randomUUID().toString();
         Map<String,Object> map=new HashMap<String, Object>();
         map.put("choreName",name);
         map.put("email",email);
         map.put("status","active");
         map.put("chorePoints",point_value);
-        db.collection("chores").document(id).set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+        map.put("id",id);
+        db.collection("chores").document(uniqueID).set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Toast.makeText(AddChoreActivity.this, "Chore Add Successfull", Toast.LENGTH_SHORT).show();
             }
         })
+
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
@@ -129,7 +133,7 @@ public class AddChoreActivity extends AppCompatActivity implements View.OnClickL
                 break;
 
             case R.id.checkpendingchores:
-                startActivity(new Intent(AddChoreActivity.this,ParentChoreListActivity.class));
+                startActivity(new Intent(AddChoreActivity.this, ParentChoreListActivity.class));
                 break;
         }
 

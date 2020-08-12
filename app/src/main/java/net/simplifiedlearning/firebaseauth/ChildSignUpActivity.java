@@ -30,7 +30,7 @@ import java.util.Random;
 
 public class ChildSignUpActivity extends AppCompatActivity implements View.OnClickListener{
 
-    EditText editTextChildSUEmail, editTextChildSUPassword, editTextChildSUUsername;
+    EditText editTextChildSUEmail, editTextChildSUPassword, editTextChildSUUsername, editTextSUParentEmail;
     ProgressBar progressBar;
 
     private FirebaseAuth mAuth;
@@ -48,6 +48,7 @@ public class ChildSignUpActivity extends AppCompatActivity implements View.OnCli
         editTextChildSUEmail = (EditText) findViewById(R.id.editTextChildSUEmail);
         editTextChildSUPassword = (EditText) findViewById(R.id.editTextChildSUPassword);
         editTextChildSUUsername = (EditText) findViewById(R.id.editTextChildSUUsername);
+        editTextSUParentEmail = (EditText) findViewById(R.id.editTextSUParentEmail);
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
 
         mAuth = FirebaseAuth.getInstance();
@@ -58,6 +59,7 @@ public class ChildSignUpActivity extends AppCompatActivity implements View.OnCli
     }
     private void registerUser (){
         final String email = editTextChildSUEmail.getText().toString().trim();
+        String parentEmail = editTextSUParentEmail.getText().toString().trim();
         String username = editTextChildSUUsername.getText().toString().trim();
         final String password = editTextChildSUPassword.getText().toString().trim();
 
@@ -91,6 +93,7 @@ public class ChildSignUpActivity extends AppCompatActivity implements View.OnCli
         final String newEmail=arr[0]+"+"+temp+"@"+arr[1];
         Map<String, Object> user = new HashMap<>();
         user.put("email", newEmail);
+        user.put("parentEmail", parentEmail);
 
         db.collection("profiles").document(username) //username is set as firestore document name, profiles is the collection name
                 .set(user)  //Store the email in above document.

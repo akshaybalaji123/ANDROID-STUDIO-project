@@ -46,6 +46,7 @@ public class ChoreListActivity extends AppCompatActivity {
 
     private void prepareChoreData() {
         db.collection("chores")
+                .whereEqualTo("email", "parentEmail") //parentEmail is the id from database
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -58,7 +59,7 @@ public class ChoreListActivity extends AppCompatActivity {
                                     movieList.add(chore);
                                 Log.d("data",document.getData().toString());
                                 Log.d("data",chore.email);
-                            } mAdapter.notifyDataSetChanged();
+                            }  mAdapter.notifyDataSetChanged();
                         } else {
                             Chore chore=new Chore("Fa","","","","0");
                             movieList.add(chore); mAdapter.notifyDataSetChanged();
