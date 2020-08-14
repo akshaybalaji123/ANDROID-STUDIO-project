@@ -13,23 +13,23 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import org.w3c.dom.Text;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     final String MyPREFERENCES = "MyPrefs";
+    private static final String TAG = "Profile Activity";
 
+
+    private AdView mAdView;
 
     Button AddChoreButton;
     TextView totalPoints;
@@ -55,12 +55,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         final String MyPREFERENCES = "MyPrefs";
 
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        String parentEmail = sharedpreferences.getString("parentEmail", null);
         String username = sharedpreferences.getString("username", null);
-        findViewById()
 
-        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
-        DocumentReference docIdRef = rootRef.collection("profiles").document(username);
         db.collection("profiles").document(username)
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -69,7 +65,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) // if username is present
                     {
-                        findViewById().setText(document.getData().get("totalPoints").toString());//id of textView
+                       totalPoints.setText(document.getData().get("totalPoints").toString());//id of textView
                     } else {
 
                         //add code (user not found/registered)
@@ -79,6 +75,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     }
                 });
     }
+
 
     @Override
     public void onClick(View view) {
