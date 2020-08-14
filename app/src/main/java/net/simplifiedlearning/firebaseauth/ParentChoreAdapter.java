@@ -14,7 +14,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
@@ -44,17 +48,31 @@ public class ParentChoreAdapter extends RecyclerView.Adapter<ParentChoreAdapter.
             @Override
             public void onClick(View view) {
                 db.collection("chores").document(chore.getId()).update("status","reedeemed"); //update chore status
-                SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-                String username=sharedpreferences.getString("username",null);
-                db.collection("profiles").document(username).update("totalPoints", FieldValue.increment(50));
-                Toast.makeText(view.getContext(), "Sent chore for Verification!! Chore name: "+chore.getChoreName(), Toast.LENGTH_SHORT).show();
+                db.collection("chores").document(chore.getId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                String username=document.getData().get("username").toString();
+                                db.collection("profiles").document(username).update("totalPoints", FieldValue.increment(Integer.parseInt(chore.getChorePoints())));
+                            } else {
+
+                            }
+                        } else {
+                            Log.d("error", "get failed with ", task.getException());
+                        }
+                    }
+                });
+
+                Toast.makeText(view.getContext(), "Reedemed", Toast.LENGTH_SHORT).show();
             }
         });
         holder.active.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 db.collection("chores").document(chore.getId()).update("status","active"); //update chore status
-                Toast.makeText(view.getContext(), "Sent chore for Verification!! Chore name: "+chore.getChoreName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), "Rejected", Toast.LENGTH_SHORT).show();
 
             }
         });

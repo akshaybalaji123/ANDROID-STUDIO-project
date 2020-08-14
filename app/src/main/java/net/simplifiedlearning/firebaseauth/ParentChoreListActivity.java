@@ -60,7 +60,7 @@ public class ParentChoreListActivity extends AppCompatActivity {
                                 Log.d("data",chore.choreName);
                             } mAdapter.notifyDataSetChanged();
                         } else {
-                            Chore chore=new Chore("Fail","Fail","Fail","Fail","0");
+                            Chore chore=new Chore("Fail","Fail","Fail","Fail","0","");
                             movieList.add(chore); mAdapter.notifyDataSetChanged();
                         }
                     }

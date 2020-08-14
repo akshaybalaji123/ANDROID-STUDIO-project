@@ -53,9 +53,12 @@ public class ChoreListActivity extends AppCompatActivity {
         final String MyPREFERENCES = "MyPrefs" ;
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         String parentEmail = sharedpreferences.getString("parentEmail", null);
+        String username = sharedpreferences.getString("username", null);
 
         db.collection("chores")
                 .whereEqualTo("email", parentEmail) //parentEmail is the id from database
+                .whereEqualTo("username", username) //username is the id from database
+                .whereEqualTo("status", "active") //status is the id from database
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -64,13 +67,10 @@ public class ChoreListActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Chore chore = document.toObject(Chore.class);
                                 chore.setId(document.getId().toString());
-                                if(chore.getStatus().equals("active"))
                                     movieList.add(chore);
-                                Log.d("data",document.getData().toString());
-                                Log.d("data",chore.email);
                             }  mAdapter.notifyDataSetChanged();
                         } else {
-                            Chore chore=new Chore("Fa","","","","0");
+                            Chore chore=new Chore("Fa","","","","0","");
                             movieList.add(chore); mAdapter.notifyDataSetChanged();
                         }
                     }

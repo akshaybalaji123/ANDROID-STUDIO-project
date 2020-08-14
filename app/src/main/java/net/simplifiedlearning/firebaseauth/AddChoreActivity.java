@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -19,10 +20,14 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -32,6 +37,7 @@ public class AddChoreActivity extends AppCompatActivity implements View.OnClickL
 
     EditText editTextChoreId,editTextChoreName, editTextPointValue;
     Button AddChoreButtonSubmit;
+    Spinner childUsernames;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
 
@@ -45,9 +51,27 @@ public class AddChoreActivity extends AppCompatActivity implements View.OnClickL
      editTextChoreId = findViewById(R.id.editTextChoreId);
      editTextChoreName = findViewById(R.id.editTextChoreName);
      editTextPointValue = (EditText) findViewById(R.id.editTextPointValue);
+     childUsernames = (Spinner) findViewById(R.id.childUsernames);
      editTextPointValue.setFilters(new InputFilter[]{new InputFilterMinMax("1", "5")});
 
 
+        db.collection("profiles").whereEqualTo("parentEmail",mAuth.getCurrentUser().getEmail()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<String> lst=new ArrayList<String>();
+                for(DocumentSnapshot ds:queryDocumentSnapshots.getDocuments())
+                {
+                    lst.add(ds.getId().toString());
+                }
+                Spinner s = (Spinner) findViewById(R.id.childUsernames);
+                String[] st=new String[lst.size()];
+                st=lst.toArray(st);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
+                        android.R.layout.simple_spinner_item, st);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                s.setAdapter(adapter);
+            }
+        });
 
         findViewById(R.id.AddChoreButtonSubmit).setOnClickListener(this);
         findViewById(R.id.checkpendingchores).setOnClickListener(this);
@@ -95,11 +119,12 @@ public class AddChoreActivity extends AppCompatActivity implements View.OnClickL
             editTextPointValue.setError("Point value required");
             editTextPointValue.requestFocus();
             return true;
-        }
+        } ///add spinner validation later
         return false;
     }
     private void addData () {
         String name = editTextChoreName.getText().toString().trim();
+        String username = childUsernames.getSelectedItem().toString();
         String id = editTextChoreId.getText().toString().trim();
         String point_value = editTextPointValue.getText().toString().trim();
         String email=mAuth.getCurrentUser().getEmail();
@@ -107,6 +132,7 @@ public class AddChoreActivity extends AppCompatActivity implements View.OnClickL
         Map<String,Object> map=new HashMap<String, Object>();
         map.put("choreName",name);
         map.put("email",email);
+        map.put("username",username);
         map.put("status","active");
         map.put("chorePoints",point_value);
         map.put("id",id);

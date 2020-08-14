@@ -1,23 +1,30 @@
 package net.simplifiedlearning.firebaseauth;
 
 public class Chore  {
-    String choreName, chorePoints, email,status,id;
+    String choreName, chorePoints, email,status,id,username;
 
     public Chore() {
     }
-public Chore (String choreName, String chorePoints, String email, String status,String id){
+public Chore (String choreName, String chorePoints, String email, String status,String id,String username){
         this.choreName = choreName;
         this.chorePoints = chorePoints;
         this.email = email;
         this.status = status;
     this.id = id;
+    this.username = username;
 
     }
     public String getChoreName(){
         return choreName;
     }
+    public String getUsername(){
+        return username;
+    }
     public void setChoreName(String choreName){
         this.choreName = choreName;
+    }
+    public void setUsername(String username){
+        this.username = username;
     }
     public String getId(){
         return id;

@@ -26,7 +26,7 @@
             android:layout_height="71dp"
             android:ems="10"
             android:inputType="textPersonName"
-            android:paddingTop="40dp"
+            android:paddingTop="20dp"
             android:paddingBottom="20dp"
             android:text="ID"
             app:layout_constraintBottom_toTopOf="@+id/editTextChoreName" />
@@ -37,7 +37,7 @@
             android:layout_height="68dp"
             android:ems="10"
             android:inputType="textPersonName"
-            android:paddingTop="40dp"
+            android:paddingTop="20dp"
             android:paddingBottom="20dp"
             android:text="Chore Name" />
 
@@ -49,6 +49,11 @@
             android:inputType="number"
             android:paddingTop="40dp"
             android:paddingBottom="20dp" />
+
+        <Spinner
+            android:id="@+id/childUsernames"
+            android:layout_width="328dp"
+            android:layout_height="49dp" />
 
         <Button
             android:id="@+id/AddChoreButtonSubmit"
